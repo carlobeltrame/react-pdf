@@ -1,9 +1,9 @@
 import { compose } from '@react-pdf/fns';
 
-import expandStyles from './expand';
-import flattenStyles from './flatten';
-import transformStyles from './transform';
-import resolveMediaQueries from './mediaQueries';
+import expandStyles from './expand/index';
+import flattenStyles from './flatten/index';
+import transformStyles from './transform/index';
+import resolveMediaQueries from './mediaQueries/index';
 
 /**
  * Resolves styles
@@ -27,5 +27,7 @@ const resolveStyles = (container, style) => {
 export { default as transformColor } from './transform/colors';
 
 export { default as processTransform } from './transform/transform';
+
+export { default as flatten } from './flatten/index';
 
 export default resolveStyles;
