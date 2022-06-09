@@ -1,4 +1,4 @@
-import advanceWidth from '@react-pdf/textkit/lib/attributedString/advanceWidth';
+import { attributedStringAdvanceWidth as advanceWidth } from '@react-pdf/textkit';
 
 /**
  * Get lines width (if any)

@@ -1,11 +1,13 @@
 import * as P from '@react-pdf/primitives';
-import layoutEngine from '@react-pdf/textkit/lib/layout';
-import linebreaker from '@react-pdf/textkit/lib/engines/linebreaker';
-import justification from '@react-pdf/textkit/lib/engines/justification';
-import scriptItemizer from '@react-pdf/textkit/lib/engines/scriptItemizer';
-import wordHyphenation from '@react-pdf/textkit/lib/engines/wordHyphenation';
-import decorationEngine from '@react-pdf/textkit/lib/engines/textDecoration';
-import fromFragments from '@react-pdf/textkit/lib/attributedString/fromFragments';
+import {
+  layoutEngine,
+  linebreaker,
+  justification,
+  scriptItemizer,
+  wordHyphenation,
+  textDecoration as decorationEngine,
+  attributedStringFromFragments as fromFragments,
+} from '@react-pdf/textkit';
 
 import transformText from '../text/transformText';
 import fontSubstitution from '../text/fontSubstitution';

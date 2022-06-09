@@ -1,5 +1,5 @@
 import * as P from '@react-pdf/primitives';
-import runWidth from '@react-pdf/textkit/lib/run/advanceWidth';
+import { runAdvanceWidth as runWidth } from '@react-pdf/textkit';
 
 import layoutText from '../../src/text/layoutText';
 

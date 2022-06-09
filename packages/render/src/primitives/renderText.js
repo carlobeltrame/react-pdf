@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { isNil } from '@react-pdf/fns';
-import runHeight from '@react-pdf/textkit/lib/run/height';
-import runDescent from '@react-pdf/textkit/lib/run/descent';
-import advanceWidth from '@react-pdf/textkit/lib/run/advanceWidth';
-import ascent from '@react-pdf/textkit/lib/attributedString/ascent';
+import {
+  runHeight,
+  runDescent,
+  runAdvanceWidth as advanceWidth,
+  attributedStringAscent as ascent,
+} from '@react-pdf/textkit';
 
 import renderGlyphs from './renderGlyphs';
 import parseColor from '../utils/parseColor';
