@@ -37,7 +37,7 @@ const serverConfig = {
   input: './src/index.js',
   output: {
     format: 'cjs',
-    file: 'lib/index.js',
+    file: 'lib/index.cjs.js',
     exports: 'named',
     sourcemap: true,
   },
@@ -55,8 +55,8 @@ const serverConfig = {
 const browserConfig = {
   input: './src/index.js',
   output: {
-    format: 'cjs',
-    file: 'lib/index.browser.js',
+    format: 'es',
+    file: 'lib/index.es.js',
     exports: 'named',
     sourcemap: true,
   },
