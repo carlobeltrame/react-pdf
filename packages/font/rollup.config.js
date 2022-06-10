@@ -57,6 +57,17 @@ const serverConfig = {
   plugins: getPlugins({ browser: false }),
 };
 
+const serverESMConfig = {
+  input: './src/index.js',
+  output: {
+    format: 'es',
+    file: 'lib/index.es.js',
+    sourcemap: true,
+  },
+  external,
+  plugins: getPlugins({ browser: false }),
+};
+
 const browserConfig = {
   input: './src/index.js',
   output: {
@@ -69,4 +80,15 @@ const browserConfig = {
   plugins: getPlugins({ browser: true }),
 };
 
-export default [serverConfig, browserConfig];
+const browserESMConfig = {
+  input: './src/index.js',
+  output: {
+    format: 'es',
+    file: 'lib/index.browser.es.js',
+    sourcemap: true,
+  },
+  external,
+  plugins: getPlugins({ browser: true }),
+};
+
+export default [serverConfig, serverESMConfig, browserConfig, browserESMConfig];

@@ -11,8 +11,10 @@
     "directory": "packages/font"
   },
   "main": "lib/index.js",
+  "module": "lib/index.es.js",
   "browser": {
-    "./lib/index.js": "./lib/index.browser.js"
+    "./lib/index.js": "./lib/index.browser.js",
+    "./lib/index.es.js": "./lib/index.browser.es.js"
   },
   "scripts": {
     "test": "jest",
