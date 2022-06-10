@@ -6,6 +6,10 @@
   "author": "Devon Govett <devongovett@gmail.com>",
   "main": "lib/unicode-properties.cjs.js",
   "module": "lib/unicode-properties.es.js",
+  "browser": {
+    "lib/unicode-properties.cjs.js": "lib/unicode-properties.browser.cjs.js",
+    "lib/unicode-properties.es.js": "lib/unicode-properties.browser.es.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/diegomura/react-pdf.git",

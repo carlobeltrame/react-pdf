@@ -1,5 +1,7 @@
 import json from '@rollup/plugin-json';
 import babel from '@rollup/plugin-babel';
+import inject from '@rollup/plugin-inject';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
@@ -52,7 +54,29 @@ const prodConfig = Object.assign({}, configBase, {
     getESM({ file: 'lib/unicode-properties.es.min.js' }),
     getCJS({ file: 'lib/unicode-properties.cjs.min.js' }),
   ],
-  plugins: configBase.plugins.concat(terser()),
+  plugins: config.plugins.concat(terser()),
 });
 
-export default [config, prodConfig];
+const browserConfig = Object.assign({}, configBase, {
+  output: [
+    getESM({ file: 'lib/unicode-properties.browser.es.js' }),
+    getCJS({ file: 'lib/unicode-properties.browser.cjs.js' }),
+  ],
+  plugins: [
+    ...configBase.plugins,
+    nodePolyfills(),
+    inject({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
+});
+
+const browserProdConfig = Object.assign({}, configBase, {
+  output: [
+    getESM({ file: 'lib/unicode-properties.browser.es.min.js' }),
+    getCJS({ file: 'lib/unicode-properties.browser.cjs.min.js' }),
+  ],
+  plugins: browserConfig.plugins.concat(terser()),
+});
+
+export default [config, prodConfig, browserConfig, browserProdConfig];
