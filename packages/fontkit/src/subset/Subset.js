@@ -1,4 +1,4 @@
-import r from 'restructure';
+import * as r from 'restructure';
 
 const resolved = Promise.resolve();
 

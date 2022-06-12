@@ -1,4 +1,4 @@
-import r from 'restructure';
+import * as r from 'restructure';
 import { cache } from './decorators';
 import fontkit from './base';
 import Directory from './tables/directory';

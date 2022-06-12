@@ -2,7 +2,7 @@ import TTFFont from './TTFFont';
 import WOFFDirectory from './tables/WOFFDirectory';
 import tables from './tables';
 import inflate from 'tiny-inflate';
-import r from 'restructure';
+import * as r from 'restructure';
 
 export default class WOFFFont extends TTFFont {
   static probe(buffer) {

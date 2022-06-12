@@ -1,4 +1,4 @@
-import r, { resolveLength } from 'restructure';
+import * as r from 'restructure';
 import {ItemVariationStore} from './variations';
 
 // TODO: add this to restructure
@@ -17,7 +17,7 @@ class VariableSizeNumber {
   }
 
   size(val, parent) {
-    return resolveLength(this._size, null, parent);
+    return r.resolveLength(this._size, null, parent);
   }
 }
 

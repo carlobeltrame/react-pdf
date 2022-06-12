@@ -1,4 +1,4 @@
-import r, { resolveLength } from 'restructure';
+import * as r from 'restructure';
 import CFFDict from './CFFDict';
 import CFFIndex from './CFFIndex';
 import CFFPointer from './CFFPointer';
@@ -78,7 +78,7 @@ let CFFEncoding = new PredefinedOp([ StandardEncoding, ExpertEncoding ], new CFF
 // length is equal to the provided length.
 class RangeArray extends r.Array {
   decode(stream, parent) {
-    let length = resolveLength(this.length, stream, parent);
+    let length = r.resolveLength(this.length, stream, parent);
     let count = 0;
     let res = [];
     while (count < length) {

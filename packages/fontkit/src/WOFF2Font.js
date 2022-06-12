@@ -1,4 +1,4 @@
-import r from 'restructure';
+import * as r from 'restructure';
 import brotli from 'brotli/decompress';
 import TTFFont from './TTFFont';
 import TTFGlyph, { Point } from './glyph/TTFGlyph';
