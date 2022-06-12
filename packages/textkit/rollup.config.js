@@ -42,7 +42,6 @@ const configBase = {
   input: 'src/index.js',
   plugins: [localResolve(), json()],
   external: Object.keys(pkg.dependencies).concat(
-    'restructure/src/utils',
     'hyphen/patterns/en-us',
     '@babel/runtime/helpers/createForOfIteratorHelperLoose',
     '@babel/runtime/helpers/createClass',
