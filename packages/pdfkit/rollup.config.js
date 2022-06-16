@@ -50,11 +50,6 @@ const configBase = {
       '@babel/runtime/helpers/createForOfIteratorHelperLoose',
       '@babel/runtime/helpers/extends',
     ),
-  onwarn: (warning, rollupWarn) => {
-    if (warning.code !== 'CIRCULAR_DEPENDENCY') {
-      rollupWarn(warning);
-    }
-  }
 };
 
 const serverConfig = Object.assign({}, configBase, {
