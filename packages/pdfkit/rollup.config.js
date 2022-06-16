@@ -4,7 +4,9 @@ import replace from '@rollup/plugin-replace';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import ignore from 'rollup-plugin-ignore';
-
+import alias from '@rollup/plugin-alias';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
 
 const cjs = {
@@ -47,8 +49,6 @@ const configBase = {
       '@babel/runtime/helpers/assertThisInitialized',
       '@babel/runtime/helpers/createForOfIteratorHelperLoose',
       '@babel/runtime/helpers/extends',
-      'stream',
-      'zlib'
     ),
   onwarn: (warning, rollupWarn) => {
     if (warning.code !== 'CIRCULAR_DEPENDENCY') {
@@ -71,7 +71,7 @@ const serverConfig = Object.assign({}, configBase, {
         BROWSER: JSON.stringify(false)
       }
     }),
-    babel(babelConfig({ browser: false }))
+    babel(babelConfig({ browser: false })),
   ],
   external: configBase.external.concat(['fs'])
 });
@@ -91,9 +91,17 @@ const browserConfig = Object.assign({}, configBase, {
   ],
   plugins: [
     ignore(['fs']),
+    alias({
+      entries: [
+        { find: 'stream', replacement: 'vite-compatible-readable-stream' },
+        { find: 'zlib', replacement: 'browserify-zlib' },
+      ]
+    }),
+    commonjs(),
 
     json(),
-    nodeResolve(),
+    nodeResolve({ browser: true, preferBuiltins: false }),
+    nodePolyfills({ include: [ /node_modules\/.+\.js/, /pdfkit\/src\/.*\.js/ ] }),
 
     replace({
       preventAssignment: true,
@@ -101,7 +109,7 @@ const browserConfig = Object.assign({}, configBase, {
         BROWSER: JSON.stringify(true)
       }
     }),
-    babel(babelConfig({ browser: true }))
+    babel(babelConfig({ browser: true })),
   ]
 });
 
