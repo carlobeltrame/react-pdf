@@ -5,7 +5,8 @@ import replace from '@rollup/plugin-replace';
 import ignore from 'rollup-plugin-ignore';
 import { terser } from 'rollup-plugin-terser';
 import sourceMaps from 'rollup-plugin-sourcemaps';
-
+import commonjs from '@rollup/plugin-commonjs';
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 import pkg from './package.json';
 
 const globals = { react: 'React' };
@@ -49,21 +50,22 @@ const babelConfig = ({ browser }) => ({
   ],
 });
 
-const commonPlugins = [json(), nodeResolve(), sourceMaps()];
-
 const configBase = {
   external: [
     '@babel/runtime/helpers/extends',
     '@babel/runtime/helpers/objectWithoutPropertiesLoose',
     '@babel/runtime/helpers/asyncToGenerator',
     '@babel/runtime/regenerator',
-  ].concat(Object.keys(pkg.dependencies), Object.keys(pkg.peerDependencies)),
-  plugins: commonPlugins,
+  ].concat(Object.keys(pkg.dependencies).filter(module => module !== 'stream-browserify'), Object.keys(pkg.peerDependencies)),
 };
 
 const getPlugins = ({ browser }) => [
-  ...configBase.plugins,
+  json(),
+  sourceMaps(),
   babel(babelConfig({ browser })),
+  commonjs(),
+  nodeResolve({ browser, preferBuiltins: !browser }),
+  ...(browser ? [nodePolyfills({ include: [ /node_modules\/.+\.js/, /blobStream\.js/ ] })] : []),
   replace({
     preventAssignment: true,
     values: {
