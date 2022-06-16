@@ -3,8 +3,9 @@ import babel from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 import ignore from 'rollup-plugin-ignore';
 import { terser } from 'rollup-plugin-terser';
-import resolve from '@rollup/plugin-node-resolve';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 import pkg from './package.json';
 
 const cjs = {
@@ -43,10 +44,10 @@ const input = 'src/index.js';
 const getExternal = function ({ browser }) {
   return Object.keys(pkg.dependencies)
     .filter(dep => {
-      // In browsers, dfa must be transpiled and bundled, in order to avoid the error
+      // In browsers, dfa and restructure must be transpiled and bundled, in order to avoid the error
       // "import not found: default" in apps using react-pdf through a modern ES module bundler. The
-      // reason is that this module is still written in CommonJS format.
-      return !browser || dep !== 'dfa';
+      // reason is that these modules are still written in CommonJS format.
+      return !['dfa', 'restructure'].includes(dep);
     })
     .concat([
       '@babel/runtime/helpers/createForOfIteratorHelperLoose',
@@ -69,9 +70,22 @@ const getPlugins = function ({ browser, minify = false }) {
     }),
     json(),
 
-    resolve({ preferBuiltins: !browser }),
-    commonjs({ include: [ /dfa/, /restructure/ ] }),
+    nodeResolve({ browser, preferBuiltins: !browser }),
+    commonjs({ include: [ /node_modules\// ] }),
+
+    // babel must come after commonjs, otherwise the following error happens: 'default' is not exported by ../../node_modules/dfa/index.js
     babel(babelConfig({ browser })),
+    // also transpile the modules which we bundle into the output
+    // babel({
+    //   ...babelConfig({ browser }),
+    //   exclude: [],
+    //   include: [ /node_modules\/restructure\/.*\.js/, /node_modules\/dfa\/.*\.js/ ],
+    // }),
+
+    // nodePolyfills must come after commonjs, otherwise commonjs treats all files with injected imports as es6 modules
+    nodePolyfills({
+      include: [ /node_modules\/.+\.js/ ]
+    }),
 
     ...(minify ? [terser()] : []),
   ]
